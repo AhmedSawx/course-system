@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 using namespace std;
 
 struct Course
@@ -337,27 +338,33 @@ void admin()
 
 int main()
 {
-  int choice = 0; // Handle if user insert a String or anything else except number
-
   preCourse();
 
   while (true)
   {
-    cout << "Welcome to our Course System! Please choose who are you?" << '\n';
+    int choice = 0;
+
+    cout << "Welcome to our Course System! Please choose who are you?\n";
     cout << "1- User\n2- Admin\n";
-    cin >> choice;
+
+    // Check if the user's input is a valid number
+    if (!(cin >> choice))
+    {
+      cout << "Invalid input. Please enter a number.\n\n";
+      cin.clear();
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+      continue;
+    }
 
     switch (choice)
     {
     case 1:
       user();
-      exit(0);
-      break;
+      return 0;
 
     case 2:
       admin();
-      exit(0);
-      break;
+      return 0;
 
     default:
       cout << "Please Choose a right number.\n\n";
