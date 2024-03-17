@@ -9,10 +9,8 @@ struct Course
   Course *next;
 };
 
-Course *head = NULL;
-
 // prebulid Courses
-void preCourse()
+void preCourse(Course *head)
 {
   // first
   struct Course *pieology = new Course();
@@ -35,7 +33,7 @@ void preCourse()
 }
 
 // ------ Start Main Operations
-Course *Insert(Course *head, string name)
+Course *InsertLast(Course *head, string name)
 {
   int id = 0;
   Course *temp = new Course();
@@ -59,19 +57,66 @@ Course *Insert(Course *head, string name)
 
 Course *Display(Course *head)
 {
-  Course *temp = head;
-
-  cout << "ID "
-       << "Name " << endl;
-
-  while (temp != NULL)
+  if (head == NULL)
   {
-    cout << temp->id << " ";
-    cout << temp->name << endl;
-    temp = temp->next;
+    cout << "Sorry it seems there is no corses in the system at the moment\n";
   }
 
-  return head;
+  else if (head != NULL)
+  {
+    // choose order
+    // system("cls"); // uncomment it when you find the right command!
+    int sortType;
+    cout << "1- Ascending\n";
+    cout << "2- Descending\n";
+    cin >> sortType;
+    // normle Ascending
+    if (sortType == 1)
+    {
+      while (head != NULL)
+      {
+        cout << "Course Id:" << head->id << endl;
+        cout << "Course Name:" << head->name << endl;
+        head = head->next;
+      }
+      return head;
+    }
+    // Revers Descending
+    else if (sortType == 2)
+    {
+      Course *current = head;
+      Course *prev = NULL;
+      Course *next = NULL;
+
+      while (current != NULL)
+      {
+        // Store next
+        next = current->next;
+        // Reverse current node's pointer
+        current->next = prev;
+        // Move pointers one position ahead.
+        prev = current;
+        current = next;
+      }
+      head = prev;
+
+      while (head != NULL)
+      {
+        cout << "Course Id:" << head->id << endl;
+        cout << "Course Name:" << head->name << endl;
+        head = head->next;
+      }
+      return head;
+    }
+    else
+    {
+      cout << "Wrong Input Please Restart and Enter a valid number\n";
+    }
+  }
+}
+
+Course *Modify(Course *head, string name, string newName)
+{
 }
 
 Course *Delete(Course *head, string name)
@@ -99,68 +144,8 @@ Course *Delete(Course *head, string name)
     temp = temp->next;
   }
 }
-// ------ End Main Operations
 
-// ------ Start User Operations
-void list()
-{
-  if (head == NULL)
-  {
-    cout << "Sorry it seems there is no corses in the system at the moment\n";
-  }
-
-  else if (head != NULL)
-  {
-    // choose order
-    system("cls");
-    int printCh;
-    cout << "1-Ascending\n";
-    cout << "2-Descending\n";
-    cin >> printCh;
-    // normle Ascending
-    if (printCh == 1)
-    {
-      while (head != NULL)
-      {
-        cout << "Course Id:" << head->id << endl;
-        cout << "Course Name:" << head->name << endl;
-        head = head->next;
-      }
-    }
-    // Revers Descending
-    else if (printCh == 2)
-    {
-      Course *current = head;
-      Course *prev = NULL;
-      Course *next = NULL;
-
-      while (current != NULL)
-      {
-        // Store next
-        next = current->next;
-        // Reverse current node's pointer
-        current->next = prev;
-        // Move pointers one position ahead.
-        prev = current;
-        current = next;
-      }
-      head = prev;
-
-      while (head != NULL)
-      {
-        cout << "Course Id:" << head->id << endl;
-        cout << "Course Name:" << head->name << endl;
-        head = head->next;
-      }
-    }
-    else
-    {
-      cout << "Invalide input please restart\n";
-    }
-  }
-}
-
-void search()
+Course *Search(Course *head)
 {
   if (head == NULL)
   {
@@ -170,14 +155,14 @@ void search()
   else
   {
     // way of search
-    system("cls");
-    int searchCo;
-    cout << "1-Search by Corse ID\n";
-    cout << "2-Search by Corse Name\n";
-    cin >> searchCo;
+    // system("cls"); // uncomment it when you find the right command!
+    int searchType;
+    cout << "1- Search by Corse ID\n";
+    cout << "2- Search by Corse Name\n";
+    cin >> searchType;
 
     // search by id
-    if (searchCo == 1)
+    if (searchType == 1)
     {
       int theId;
       cout << "please input the id:";
@@ -190,7 +175,7 @@ void search()
           if (theId == head->id)
           {
             cout << "the corse has been found :" << head->name << " ID:" << head->id;
-            return;
+            return head;
           }
           else
           {
@@ -208,7 +193,7 @@ void search()
     }
 
     // search by name
-    else if (searchCo == 2)
+    else if (searchType == 2)
     {
 
       if (head == NULL)
@@ -228,7 +213,7 @@ void search()
           if (theName == head->name)
           {
             cout << "the corse has been found :" << head->name << " ID:" << head->id;
-            return;
+            return head;
           }
           else
           {
@@ -238,26 +223,57 @@ void search()
         cout << "No such corse has been found \n";
       }
     }
+    else
+    {
+      cout << "Wrong Input Please Restart and Enter a valid number\n";
+    }
   }
 }
-// ------ End User Operations
+// ------ End Main Operations
 
 // ------ Start Admin Operations
-void addCourse()
+void addCourse(Course *head)
 {
+  string courseName;
+
+  cout << "Enter Course Name: ";
+  cin >> courseName;
+
+  head = InsertLast(head, courseName);
+
+  cout << "\nDone!\n\n";
 }
 
-void modifyCourse()
+void modifyCourse(Course *head)
 {
+  string courseName, newName;
+
+  cout << "Enter Course Name: ";
+  cin >> courseName;
+
+  cout << "Enter New Name: ";
+  cin >> newName;
+
+  head = Modify(head, courseName, newName);
+
+  cout << "\nDone!\n\n";
 }
 
-void deleteCourse()
+void deleteCourse(Course *head)
 {
+  string courseName;
+
+  cout << "Enter Course Name: ";
+  cin >> courseName;
+
+  head = Delete(head, courseName);
+
+  cout << "\nDone!\n\n";
 }
 // ------ End Admin Operations
 
 // ------ Start Accounts
-void user()
+void user(Course *head)
 {
   int choice;
 
@@ -269,11 +285,11 @@ void user()
   switch (choice)
   {
   case 1:
-    list();
+    Display(head);
     break;
 
   case 2:
-    search();
+    search(head);
     break;
 
   default:
@@ -282,7 +298,7 @@ void user()
   }
 }
 
-void admin()
+void admin(Course *head)
 {
   int password = 1221;
   int inputPass;
@@ -305,23 +321,23 @@ void admin()
     switch (choice)
     {
     case 1:
-      list();
+      Display(head);
       break;
 
     case 2:
-      search();
+      search(head);
       break;
 
     case 3:
-      addCourse();
+      addCourse(head);
       break;
 
     case 4:
-      modifyCourse();
+      modifyCourse(head);
       break;
 
     case 5:
-      deleteCourse();
+      deleteCourse(head);
       break;
 
     default:
@@ -338,7 +354,9 @@ void admin()
 
 int main()
 {
-  preCourse();
+  Course *head = NULL;
+
+  preCourse(head);
 
   while (true)
   {
@@ -359,11 +377,11 @@ int main()
     switch (choice)
     {
     case 1:
-      user();
+      user(head);
       return 0;
 
     case 2:
-      admin();
+      admin(head);
       return 0;
 
     default:
