@@ -289,7 +289,7 @@ void user(Course *head)
     break;
 
   case 2:
-    search(head);
+    Search(head);
     break;
 
   default:
@@ -325,7 +325,7 @@ void admin(Course *head)
       break;
 
     case 2:
-      search(head);
+      Search(head);
       break;
 
     case 3:
