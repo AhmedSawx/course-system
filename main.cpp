@@ -14,7 +14,9 @@ Course *InsertLast(Course *head, string name)
 {
   Course *temp = new Course();
   temp->name = name;
+  temp->id = 0;
   temp->next = NULL;
+
   if (head == NULL)
   {
     head = temp;
@@ -22,16 +24,17 @@ Course *InsertLast(Course *head, string name)
   }
 
   Course *temp2 = head;
+  temp->id++;
   while (temp2->next != NULL)
   {
+    temp->id++;
     temp2 = temp2->next;
-    temp2->id++;
   }
   temp2->next = temp;
   return head;
 }
 
-Course *Display(Course *head)
+void Display(Course *head)
 {
   if (head == NULL)
   {
@@ -55,7 +58,7 @@ Course *Display(Course *head)
         cout << "Course Name:" << head->name << endl;
         head = head->next;
       }
-      return head;
+      return;
     }
     // Revers Descending
     else if (sortType == 2)
@@ -82,15 +85,14 @@ Course *Display(Course *head)
         cout << "Course Name:" << head->name << endl;
         head = head->next;
       }
-      return head;
+      return;
     }
     else
     {
       cout << "Wrong Input Please Restart and Enter a valid number\n";
     }
   }
-
-  return head; // handle error
+  // handle error
 }
 
 Course *Modify(Course *head, string name, string newName)
@@ -213,7 +215,7 @@ void search(Course *head)
 // ------ End Main Operations
 
 // prebulid Courses
-void preCourse(Course *head)
+Course *preCourse(Course *head)
 {
   // first
   head = InsertLast(head, "Pieology");
@@ -223,6 +225,7 @@ void preCourse(Course *head)
 
   // third
   head = InsertLast(head, "Mathematics");
+  return head;
 }
 
 // ------ Start Admin Operations
@@ -279,7 +282,7 @@ void user(Course *head)
   switch (choice)
   {
   case 1:
-    head = Display(head);
+    Display(head);
     break;
 
   case 2:
@@ -315,7 +318,7 @@ void admin(Course *head)
     switch (choice)
     {
     case 1:
-      head = Display(head);
+      Display(head);
       break;
 
     case 2:
@@ -348,9 +351,9 @@ void admin(Course *head)
 
 int main()
 {
-  Course *head = NULL;
+  Course *head = nullptr;
 
-  preCourse(head);
+  head = preCourse(head);
 
   while (true)
   {
