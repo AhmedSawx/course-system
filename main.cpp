@@ -9,33 +9,9 @@ struct Course
   Course *next;
 };
 
-// prebulid Courses
-void preCourse(Course *head)
-{
-  // first
-  struct Course *pieology = new Course();
-  head = pieology;
-  pieology->id = 1;
-  pieology->name = "Pieology";
-
-  // second
-  struct Course *sciences = new Course();
-  pieology->next = sciences;
-  sciences->id = 2;
-  sciences->name = "Sciences";
-
-  // third
-  struct Course *math = new Course();
-  sciences->next = math;
-  math->id = 3;
-  math->name = "Mathematics";
-  math->next = NULL;
-}
-
 // ------ Start Main Operations
 Course *InsertLast(Course *head, string name)
 {
-  int id = 0;
   Course *temp = new Course();
   temp->name = name;
   temp->next = NULL;
@@ -113,10 +89,13 @@ Course *Display(Course *head)
       cout << "Wrong Input Please Restart and Enter a valid number\n";
     }
   }
+
+  return head; // handle error
 }
 
 Course *Modify(Course *head, string name, string newName)
 {
+  return head; // handle error
 }
 
 Course *Delete(Course *head, string name)
@@ -143,9 +122,11 @@ Course *Delete(Course *head, string name)
     prev = temp;
     temp = temp->next;
   }
+
+  return head; // handle error
 }
 
-Course *Search(Course *head)
+void search(Course *head)
 {
   if (head == NULL)
   {
@@ -175,7 +156,7 @@ Course *Search(Course *head)
           if (theId == head->id)
           {
             cout << "the corse has been found :" << head->name << " ID:" << head->id;
-            return head;
+            return;
           }
           else
           {
@@ -213,7 +194,7 @@ Course *Search(Course *head)
           if (theName == head->name)
           {
             cout << "the corse has been found :" << head->name << " ID:" << head->id;
-            return head;
+            return;
           }
           else
           {
@@ -230,6 +211,19 @@ Course *Search(Course *head)
   }
 }
 // ------ End Main Operations
+
+// prebulid Courses
+void preCourse(Course *head)
+{
+  // first
+  head = InsertLast(head, "Pieology");
+
+  // second
+  head = InsertLast(head, "Sciences");
+
+  // third
+  head = InsertLast(head, "Mathematics");
+}
 
 // ------ Start Admin Operations
 void addCourse(Course *head)
@@ -285,11 +279,11 @@ void user(Course *head)
   switch (choice)
   {
   case 1:
-    Display(head);
+    head = Display(head);
     break;
 
   case 2:
-    Search(head);
+    search(head);
     break;
 
   default:
@@ -321,11 +315,11 @@ void admin(Course *head)
     switch (choice)
     {
     case 1:
-      Display(head);
+      head = Display(head);
       break;
 
     case 2:
-      Search(head);
+      search(head);
       break;
 
     case 3:
