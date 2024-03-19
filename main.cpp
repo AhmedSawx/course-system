@@ -54,8 +54,8 @@ void Display(Course *head)
     {
       while (head != NULL)
       {
-        cout << "Course Id:" << head->id << endl;
-        cout << "Course Name:" << head->name << endl;
+        cout << "Course Name: " << head->name << "\t";
+        cout << "Course Id: " << head->id << endl;
         head = head->next;
       }
       return;
@@ -81,8 +81,8 @@ void Display(Course *head)
 
       while (head != NULL)
       {
-        cout << "Course Id:" << head->id << endl;
-        cout << "Course Name:" << head->name << endl;
+        cout << "Course Name: " << head->name << "\t";
+        cout << "Course Id: " << head->id << endl;
         head = head->next;
       }
       return;
@@ -92,18 +92,41 @@ void Display(Course *head)
       cout << "Wrong Input Please Restart and Enter a valid number\n";
     }
   }
-  // handle error
 }
 
 Course *Modify(Course *head, string name, string newName)
 {
-  return head; // handle error
+  Course *temp = head;
+
+  if (temp == NULL)
+  {
+    cout << "Sorry it seems there is no corses in the system at the moment\n";
+  }
+
+  while (temp != NULL)
+  {
+    if (temp->name == name)
+    {
+      temp->name = newName;
+
+      cout << "\nDone!\n\n";
+    }
+    temp = temp->next;
+  }
+
+  return head; // handle warning
 }
 
 Course *Delete(Course *head, string name)
 {
   Course *temp = head;
   Course *prev = NULL;
+
+  if (temp == NULL)
+  {
+    cout << "Sorry it seems there is no corses in the system at the moment\n";
+  }
+
   while (temp != NULL)
   {
     if (temp->name == name)
@@ -112,12 +135,16 @@ Course *Delete(Course *head, string name)
       {
         prev->next = temp->next;
         delete temp;
+        cout << "\nDone!\n\n";
+
         return head;
       }
       else
       {
         head = temp->next;
         delete temp;
+        cout << "\nDone!\n\n";
+
         return head;
       }
     }
@@ -125,7 +152,7 @@ Course *Delete(Course *head, string name)
     temp = temp->next;
   }
 
-  return head; // handle error
+  return head; // handle warning
 }
 
 void search(Course *head)
@@ -245,27 +272,24 @@ void modifyCourse(Course *head)
 {
   string courseName, newName;
 
-  cout << "Enter Course Name: ";
+  cout << "\t\tATTENTION PLAESE!!! the name should be 100% right\n";
+  cout << "Please input course name: ";
   cin >> courseName;
 
-  cout << "Enter New Name: ";
+  cout << "Enter new name: ";
   cin >> newName;
 
   head = Modify(head, courseName, newName);
-
-  cout << "\nDone!\n\n";
 }
 
 void deleteCourse(Course *head)
 {
   string courseName;
 
-  cout << "Enter Course Name: ";
+  cout << "Enter course name: ";
   cin >> courseName;
 
   head = Delete(head, courseName);
-
-  cout << "\nDone!\n\n";
 }
 // ------ End Admin Operations
 
@@ -359,7 +383,7 @@ int main()
   {
     int choice = 0;
 
-    cout << "Welcome to our Course System! Please choose who are you?\n";
+    cout << "\nWelcome to our Course System! Please choose who are you?\n";
     cout << "1- User\n2- Admin\n";
 
     // Check if the user's input is a valid number
@@ -371,15 +395,17 @@ int main()
       continue;
     }
 
+    cout << endl;
+
     switch (choice)
     {
     case 1:
       user(head);
-      return 0;
+      break;
 
     case 2:
       admin(head);
-      return 0;
+      break;
 
     default:
       cout << "Please Choose a right number.\n\n";
