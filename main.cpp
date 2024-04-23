@@ -1,6 +1,13 @@
 #include <iostream>
+#include <string>
 #include <limits>
 using namespace std;
+
+#ifdef WINDOWS
+#define CLEAR "cls"
+#else
+#define CLEAR "clear"
+#endif
 
 struct Course
 {
@@ -9,12 +16,29 @@ struct Course
   Course *next;
 };
 
+int choiceDetect()
+{
+  int choice = 0;
+  while (true)
+  {
+    // Check if the user's input is a valid number
+    if (!(cin >> choice))
+    {
+      cout << "Invalid input. Please enter a number.\n\n";
+      cin.clear();
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+      continue;
+    }
+    return choice;
+  }
+}
+
 // ------ Start Main Operations
 Course *InsertLast(Course *head, string name)
 {
   Course *temp = new Course();
   temp->name = name;
-  temp->id = 0;
+  temp->id = 1;
   temp->next = NULL;
 
   if (head == NULL)
@@ -184,7 +208,8 @@ void search(Course *head)
         {
           if (theId == head->id)
           {
-            cout << "the corse has been found :" << head->name << " ID:" << head->id;
+            cout << "the course has been found:\n"
+                 << head->name << "\nID: " << head->id;
             return;
           }
           else
@@ -192,7 +217,7 @@ void search(Course *head)
             head = head->next;
           }
         }
-        cout << "No such corse has been found \n";
+        cout << "No such course has been found \n";
       }
 
       else
@@ -208,7 +233,7 @@ void search(Course *head)
 
       if (head == NULL)
       {
-        cout << "Sorry it seems there is no corses in the system at the moment\n";
+        cout << "Sorry it seems there is no course in the system at the moment\n";
       }
 
       else
@@ -222,7 +247,8 @@ void search(Course *head)
         {
           if (theName == head->name)
           {
-            cout << "the corse has been found :" << head->name << " ID:" << head->id;
+            cout << "the course has been found:\n"
+                 << head->name << "\nID: " << head->id;
             return;
           }
           else
@@ -230,12 +256,12 @@ void search(Course *head)
             head = head->next;
           }
         }
-        cout << "No such corse has been found \n";
+        cout << "No such course has been found \n";
       }
     }
     else
     {
-      cout << "Wrong Input Please Restart and Enter a valid number\n";
+      cout << "Wrong input. Please restart and Enter a valid number!\n";
     }
   }
 }
@@ -296,48 +322,16 @@ void deleteCourse(Course *head)
 // ------ Start Accounts
 void user(Course *head)
 {
-  int choice;
-
-  cout << "Choose what you want to do:\n\n";
-  cout << "1- List all courses.\n";
-  cout << "2- Search specific course.\n";
-  cin >> choice;
-
-  switch (choice)
-  {
-  case 1:
-    Display(head);
-    break;
-
-  case 2:
-    search(head);
-    break;
-
-  default:
-    cout << "Please Choose a right number.\n\n";
-    break;
-  }
-}
-
-void admin(Course *head)
-{
-  int password = 1221;
-  int inputPass;
-  cout << "INPUT THE PASSWORD: ";
-  cin >> inputPass;
-
-  if (password == inputPass)
+  while (true)
   {
     int choice;
 
-    cout << "\n\t\tWelcome Admin!\n\n";
     cout << "Choose what you want to do:\n\n";
     cout << "1- List all courses.\n";
     cout << "2- Search specific course.\n";
-    cout << "3- Add new course.\n";
-    cout << "4- Modify specific course.\n";
-    cout << "5- Delete course.\n";
-    cin >> choice;
+    cout << "0- Go back to menu\n";
+
+    choice = choiceDetect();
 
     switch (choice)
     {
@@ -349,26 +343,75 @@ void admin(Course *head)
       search(head);
       break;
 
-    case 3:
-      addCourse(head);
-      break;
-
-    case 4:
-      modifyCourse(head);
-      break;
-
-    case 5:
-      deleteCourse(head);
-      break;
+    case 0:
+      return;
 
     default:
       cout << "Please Choose a right number.\n\n";
       break;
     }
   }
+}
+
+void admin(Course *head)
+{
+  string password = "1221";
+  string inputPass;
+  cout << "INPUT THE PASSWORD: ";
+  cin >> inputPass;
+
+  if (password == inputPass)
+  {
+    while (true)
+    {
+      int choice;
+
+      cout << "\n\t\tWelcome Admin!\n\n";
+      cout << "Choose what you want to do:\n\n";
+      cout << "1- List all courses.\n";
+      cout << "2- Search specific course.\n";
+      cout << "3- Add new course.\n";
+      cout << "4- Modify specific course.\n";
+      cout << "5- Delete course.\n";
+      cout << "0- Go back to menu.\n";
+
+      choice = choiceDetect();
+
+      switch (choice)
+      {
+      case 1:
+        Display(head);
+        break;
+
+      case 2:
+        search(head);
+        break;
+
+      case 3:
+        addCourse(head);
+        break;
+
+      case 4:
+        modifyCourse(head);
+        break;
+
+      case 5:
+        deleteCourse(head);
+        break;
+
+      case 0:
+        return;
+
+      default:
+        cout << "Please Choose a right number.\n\n";
+        break;
+      }
+    }
+  }
   else
   {
-    cout << "YOU ARE FAKE!\n";
+    cout << "Password incorrect!\n";
+    return;
   }
 }
 // ------ End Accounts
@@ -386,14 +429,7 @@ int main()
     cout << "\nWelcome to our Course System! Please choose who are you?\n";
     cout << "1- User\n2- Admin\n";
 
-    // Check if the user's input is a valid number
-    if (!(cin >> choice))
-    {
-      cout << "Invalid input. Please enter a number.\n\n";
-      cin.clear();
-      cin.ignore(numeric_limits<streamsize>::max(), '\n');
-      continue;
-    }
+    choice = choiceDetect();
 
     cout << endl;
 
