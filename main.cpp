@@ -1,6 +1,9 @@
 #include <iostream>
 #include <string>
 #include <limits>
+#include <chrono>
+#include <thread>
+
 using namespace std;
 
 #ifdef WINDOWS
@@ -72,7 +75,7 @@ void Display(Course *head)
     int sortType;
     cout << "1- Ascending\n";
     cout << "2- Descending\n";
-    cin >> sortType;
+    sortType = choiceDetect();
     // normle Ascending
     if (sortType == 1)
     {
@@ -184,12 +187,14 @@ void search(Course *head)
   if (head == NULL)
   {
     cout << "Sorry it seems there is no corses in the system at the moment\n";
+    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
   }
 
   else
   {
     // way of search
     // system("cls"); // uncomment it when you find the right command!
+    system(CLEAR);
     int searchType;
     cout << "1- Search by Corse ID\n";
     cout << "2- Search by Corse Name\n";
@@ -209,7 +214,7 @@ void search(Course *head)
           if (theId == head->id)
           {
             cout << "the course has been found:\n"
-                 << head->name << "\nID: " << head->id;
+                 << head->name << " ID: " << head->id << '\n';
             return;
           }
           else
@@ -223,6 +228,7 @@ void search(Course *head)
       else
       {
         cout << "Invalid input please restart\n";
+        std::this_thread::sleep_for(std::chrono::milliseconds(1500));
         return;
       }
     }
@@ -234,6 +240,7 @@ void search(Course *head)
       if (head == NULL)
       {
         cout << "Sorry it seems there is no course in the system at the moment\n";
+        std::this_thread::sleep_for(std::chrono::milliseconds(1500));
       }
 
       else
@@ -248,7 +255,7 @@ void search(Course *head)
           if (theName == head->name)
           {
             cout << "the course has been found:\n"
-                 << head->name << "\nID: " << head->id;
+                 << head->name << "\nID: " << head->id << '\n';
             return;
           }
           else
@@ -410,7 +417,9 @@ void admin(Course *head)
   }
   else
   {
+    system(CLEAR);
     cout << "Password incorrect!\n";
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     return;
   }
 }
